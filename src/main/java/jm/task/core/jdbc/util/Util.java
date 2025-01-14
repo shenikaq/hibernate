@@ -20,42 +20,10 @@ public class Util {
     private static final String USER = "root";
     private static final String PASSWORD = "Dashok_191";
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
-    private static Connection connection;
     private static SessionFactory sessionFactory;
 
     public Util() {
 
-    }
-
-//    public static void registerDriver() {
-//        try {
-//            Driver driver = new com.mysql.jdbc.Driver();
-//            DriverManager.registerDriver(driver);
-//        } catch (SQLException e) {
-//            System.out.println("The driver is not registered");
-//        }
-//    }
-
-    public Connection getConnection() {
-        try {
-            Class.forName(DRIVER).getDeclaredConstructor().newInstance();
-            connection = DriverManager.getConnection(URL, USER, PASSWORD);
-            connection.setAutoCommit(false);
-        } catch (SQLException | ClassNotFoundException | NoSuchMethodException | InstantiationException |
-                 IllegalAccessException | InvocationTargetException e) {
-            throw new RuntimeException(e);
-        }
-        return connection;
-    }
-
-    public void closeConnection() {
-        if (connection != null) {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        }
     }
 
     public static SessionFactory getSessionFactory() {
