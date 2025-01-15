@@ -48,15 +48,11 @@ public class Util {
         settings.put(Environment.URL, URL);
         settings.put(Environment.USER, USER);
         settings.put(Environment.PASS, PASSWORD);
-        settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQLDialect");
+        settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQL5Dialect");   //от 5 версии
         settings.put(Environment.SHOW_SQL, "true");
         settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
         settings.put(Environment.HBM2DDL_AUTO, "create-drop");
 
-        //hibernate.hbm2ddl.auto установлен в create-drop или update.
-        // Это позволит Hibernate автоматически создавать или обновлять схему базы данных на основе сущностей.
-
         return settings;
     }
-
 }
