@@ -8,10 +8,6 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
 
-import java.lang.reflect.InvocationTargetException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.Properties;
 
 public class Util {
@@ -30,17 +26,8 @@ public class Util {
         if (sessionFactory == null) {
             try {
                 Configuration configuration = new Configuration();
-                Properties settings = new Properties();
 
-                settings.put(Environment.DRIVER, DRIVER);
-                settings.put(Environment.URL, URL);
-                settings.put(Environment.USER, USER);
-                settings.put(Environment.PASS, PASSWORD);
-                settings.put(Environment.SHOW_SQL, "true");
-                settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
-                settings.put(Environment.HBM2DDL_AUTO, "create-drop");
-
-                configuration.setProperties(settings);
+                configuration.setProperties(hibernateProperties());
                 configuration.addAnnotatedClass(User.class);
 
                 ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
@@ -48,9 +35,28 @@ public class Util {
 
                 sessionFactory = configuration.buildSessionFactory(serviceRegistry);
             } catch (Exception e) {
-                e.printStackTrace();
+//                e.printStackTrace();
             }
         }
         return sessionFactory;
     }
+
+    private static Properties hibernateProperties() {
+        Properties settings = new Properties();
+
+        settings.put(Environment.DRIVER, DRIVER);
+        settings.put(Environment.URL, URL);
+        settings.put(Environment.USER, USER);
+        settings.put(Environment.PASS, PASSWORD);
+        settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQLDialect");
+        settings.put(Environment.SHOW_SQL, "true");
+        settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
+        settings.put(Environment.HBM2DDL_AUTO, "create-drop");
+
+        //hibernate.hbm2ddl.auto установлен в create-drop или update.
+        // Это позволит Hibernate автоматически создавать или обновлять схему базы данных на основе сущностей.
+
+        return settings;
+    }
+
 }
